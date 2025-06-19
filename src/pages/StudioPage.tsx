@@ -4,9 +4,9 @@ import { courses } from "../data/courses";
 import { fitnessStudios } from "../data/studios";
 import { useKeenSlider } from "keen-slider/react";
 import "keen-slider/keen-slider.min.css";
-import { ChevronLeft, ChevronRight } from "lucide-react";
-
 import {
+  ChevronLeft,
+  ChevronRight,
   Clock,
   MapPin,
   Users,
@@ -17,23 +17,16 @@ import {
 } from "lucide-react";
 
 const StudioPage: React.FC = () => {
-  const { id } = useParams(); // studioId
+  const { id } = useParams();
   const studio = fitnessStudios.find((s) => s.id === id);
   const studioCourses = courses.filter((course) => course.studioId === id);
 
   const [sliderRef, slider] = useKeenSlider<HTMLDivElement>(
     {
-      slides: {
-        perView: 3,
-        spacing: 16,
-      },
+      slides: { perView: 3, spacing: 16 },
       breakpoints: {
-        "(max-width: 1024px)": {
-          slides: { perView: 2, spacing: 12 },
-        },
-        "(max-width: 640px)": {
-          slides: { perView: 1, spacing: 8 },
-        },
+        "(max-width: 1024px)": { slides: { perView: 2, spacing: 12 } },
+        "(max-width: 640px)": { slides: { perView: 1, spacing: 8 } },
       },
       loop: true,
     },
@@ -78,29 +71,37 @@ const StudioPage: React.FC = () => {
   }
 
   return (
-    <div className="min-h-screen py-12 px-4 max-w-6xl mx-auto">
-      {/* Studio Info */}
-      <div className="mb-12">
+    <div className="min-h-screen bg-gray-50 dark:bg-gray-900 py-12 px-4 max-w-7xl mx-auto">
+      {/* Back Button */}
+      <Link
+        to="/"
+        className="inline-flex items-center space-x-2 mb-6 text-sm font-medium text-gray-700 dark:text-gray-300 hover:text-emerald-600 dark:hover:text-emerald-400 transition"
+      >
+        <ChevronLeft className="w-4 h-4" />
+        <span>Back</span>
+      </Link>
+      {/* Studio Hero */}
+      <div className="relative h-80 rounded-xl overflow-hidden shadow-lg mb-10">
         <img
           src={studio.image}
           alt={studio.name}
-          className="w-full h-64 object-cover rounded-lg shadow"
+          className="w-full h-full object-cover"
         />
-        <h1 className="text-3xl font-bold mt-6 text-gray-900 dark:text-white">
-          {studio.name}
-        </h1>
-        <p className="text-gray-600 dark:text-gray-300 mt-2">
-          {studio.description}
-        </p>
+        <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/30 to-transparent p-6 flex flex-col justify-end">
+          <h1 className="text-4xl font-bold text-white">{studio.name}</h1>
+          <p className="text-md text-gray-200 max-w-3xl">
+            {studio.description}
+          </p>
+        </div>
       </div>
 
-      {/* Studio Tags */}
+      {/* Tags */}
       {studio.tags && (
-        <div className="mt-4 flex flex-wrap gap-2">
+        <div className="mb-6 flex flex-wrap gap-2">
           {studio.tags.map((tag, i) => (
             <span
               key={i}
-              className="bg-blue-100 text-blue-700 text-xs font-medium px-2 py-1 rounded-full"
+              className="bg-emerald-100 text-emerald-800 text-xs font-semibold px-3 py-1 rounded-full"
             >
               {tag}
             </span>
@@ -108,22 +109,22 @@ const StudioPage: React.FC = () => {
         </div>
       )}
 
-      {/* Studio Metadata */}
+      {/* Metadata */}
       {studio.metadata && (
-        <ul className="mt-4 grid grid-cols-2 sm:grid-cols-3 gap-2 text-sm text-gray-700 dark:text-gray-300">
+        <div className="mb-10 grid grid-cols-2 sm:grid-cols-3 gap-4 text-sm text-gray-700 dark:text-gray-300">
           {Object.entries(studio.metadata).map(([key, value]) => (
-            <li
+            <div
               key={key}
-              className="bg-gray-50 dark:bg-gray-800 p-3 rounded-md shadow-sm"
+              className="bg-white dark:bg-gray-800 p-4 rounded-lg shadow-sm"
             >
-              <strong>{key}:</strong> {value}
-            </li>
+              <strong className="capitalize">{key}:</strong> {value}
+            </div>
           ))}
-        </ul>
+        </div>
       )}
 
       {/* Courses */}
-      <h2 className="text-2xl font-semibold mb-6 text-gray-800 dark:text-white mt-10">
+      <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-6">
         Available Courses
       </h2>
 
@@ -177,16 +178,13 @@ const StudioPage: React.FC = () => {
                       {course.description}
                     </p>
 
-                    {/* Info badges */}
+                    {/* Info */}
                     <div className="grid grid-cols-2 gap-3 mt-4 text-sm text-gray-600 dark:text-gray-300">
                       <div className="flex items-center">
                         <Clock className="w-4 h-4 mr-2" />
                         {course.duration}
                       </div>
-                      <div className="flex items-center">
-                        <MapPin className="w-4 h-4 mr-2" />
-                        {course.location}
-                      </div>
+
                       <div className="flex items-center">
                         <Award className="w-4 h-4 mr-2" />
                         {course.level}
@@ -195,44 +193,48 @@ const StudioPage: React.FC = () => {
                         <Users className="w-4 h-4 mr-2" />
                         {course.maxParticipants} max
                       </div>
-                      <div className="flex items-center col-span-2">
+                      <div className="flex items-center">
                         <User className="w-4 h-4 mr-2" />
                         {course.instructor}
                       </div>
                     </div>
 
                     {/* Schedule */}
-                    <div className="mt-4">
-                      <h4 className="text-sm font-medium mb-1 text-gray-900 dark:text-white">
-                        Schedule:
-                      </h4>
-                      <ul className="text-sm space-y-1 text-gray-500 dark:text-gray-400">
-                        {course.schedule.map((s, idx) => (
-                          <li key={idx} className="flex items-center">
-                            <Calendar className="w-4 h-4 mr-2" />
-                            {s.day}, {s.time}
-                          </li>
-                        ))}
-                      </ul>
-                    </div>
+                    {course.schedule && (
+                      <div className="mt-4">
+                        <h4 className="text-sm font-medium mb-1 text-gray-900 dark:text-white">
+                          Schedule:
+                        </h4>
+                        <ul className="text-sm space-y-1 text-gray-500 dark:text-gray-400">
+                          {course.schedule.map((s, idx) => (
+                            <li key={idx} className="flex items-center">
+                              <Calendar className="w-4 h-4 mr-2" />
+                              {s.day}, {s.time}
+                            </li>
+                          ))}
+                        </ul>
+                      </div>
+                    )}
 
                     {/* Equipment */}
-                    <div className="mt-4">
-                      <h4 className="text-sm font-medium mb-1 text-gray-900 dark:text-white">
-                        Equipment:
-                      </h4>
-                      <ul className="flex flex-wrap gap-2 text-sm text-gray-500 dark:text-gray-400">
-                        {course.equipment.map((item, idx) => (
-                          <li
-                            key={idx}
-                            className="flex items-center bg-gray-100 dark:bg-gray-800 rounded-full px-3 py-1"
-                          >
-                            <CheckCircle className="w-3 h-3 mr-2 text-emerald-500" />
-                            {item}
-                          </li>
-                        ))}
-                      </ul>
-                    </div>
+                    {course.equipment && (
+                      <div className="mt-4">
+                        <h4 className="text-sm font-medium mb-1 text-gray-900 dark:text-white">
+                          Equipment:
+                        </h4>
+                        <ul className="flex flex-wrap gap-2 text-sm text-gray-500 dark:text-gray-400">
+                          {course.equipment.map((item, idx) => (
+                            <li
+                              key={idx}
+                              className="flex items-center bg-gray-100 dark:bg-gray-800 rounded-full px-3 py-1"
+                            >
+                              <CheckCircle className="w-3 h-3 mr-2 text-emerald-500" />
+                              {item}
+                            </li>
+                          ))}
+                        </ul>
+                      </div>
+                    )}
                   </div>
                 </div>
               </Link>

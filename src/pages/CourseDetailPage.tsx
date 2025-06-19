@@ -1,25 +1,25 @@
-import React, { useState } from 'react';
-import { useParams, Link } from 'react-router-dom';
-import { motion } from 'framer-motion';
-import { 
-  ArrowLeft, 
-  Clock, 
-  MapPin, 
-  Users, 
-  Star, 
+import React, { useState } from "react";
+import { useParams, Link } from "react-router-dom";
+import { motion } from "framer-motion";
+import {
+  ArrowLeft,
+  Clock,
+  MapPin,
+  Users,
+  Star,
   Calendar,
   Award,
   CheckCircle,
-  User
-} from 'lucide-react';
-import { courses } from '../data/courses';
-import BookingForm from '../components/BookingForm';
+  User,
+} from "lucide-react";
+import { courses } from "../data/courses";
+import BookingForm from "../components/BookingForm";
 
 const CourseDetailPage: React.FC = () => {
   const { slug } = useParams<{ slug: string }>();
   const [isBookingOpen, setIsBookingOpen] = useState(false);
-  
-  const course = courses.find(c => c.slug === slug);
+
+  const course = courses.find((c) => c.slug === slug);
 
   if (!course) {
     return (
@@ -28,7 +28,7 @@ const CourseDetailPage: React.FC = () => {
           <h1 className="text-2xl font-bold text-gray-900 dark:text-white mb-4">
             Course Not Found
           </h1>
-          <Link 
+          <Link
             to="/"
             className="text-emerald-600 dark:text-emerald-400 hover:underline"
           >
@@ -40,9 +40,11 @@ const CourseDetailPage: React.FC = () => {
   }
 
   const levelColors = {
-    Beginner: 'bg-green-100 text-green-800 dark:bg-green-900/50 dark:text-green-200',
-    Intermediate: 'bg-yellow-100 text-yellow-800 dark:bg-yellow-900/50 dark:text-yellow-200',
-    Advanced: 'bg-red-100 text-red-800 dark:bg-red-900/50 dark:text-red-200'
+    Beginner:
+      "bg-green-100 text-green-800 dark:bg-green-900/50 dark:text-green-200",
+    Intermediate:
+      "bg-yellow-100 text-yellow-800 dark:bg-yellow-900/50 dark:text-yellow-200",
+    Advanced: "bg-red-100 text-red-800 dark:bg-red-900/50 dark:text-red-200",
   };
 
   return (
@@ -55,7 +57,7 @@ const CourseDetailPage: React.FC = () => {
           className="w-full h-full object-cover"
         />
         <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent" />
-        
+
         {/* Back Button */}
         <Link to="/">
           <motion.button
@@ -80,7 +82,11 @@ const CourseDetailPage: React.FC = () => {
               <span className="px-3 py-1 bg-emerald-600 text-white text-sm font-semibold rounded-full">
                 {course.category}
               </span>
-              <span className={`px-3 py-1 text-sm font-semibold rounded-full ${levelColors[course.level]}`}>
+              <span
+                className={`px-3 py-1 text-sm font-semibold rounded-full ${
+                  levelColors[course.level]
+                }`}
+              >
                 {course.level}
               </span>
             </div>
@@ -158,7 +164,9 @@ const CourseDetailPage: React.FC = () => {
                     className="flex items-center bg-white dark:bg-gray-800 rounded-lg p-4 shadow-sm"
                   >
                     <CheckCircle className="w-5 h-5 text-emerald-600 dark:text-emerald-400 mr-3" />
-                    <span className="text-gray-700 dark:text-gray-300">{item}</span>
+                    <span className="text-gray-700 dark:text-gray-300">
+                      {item}
+                    </span>
                   </div>
                 ))}
               </div>
@@ -192,17 +200,7 @@ const CourseDetailPage: React.FC = () => {
                     {course.duration}
                   </span>
                 </div>
-                
-                <div className="flex items-center justify-between">
-                  <div className="flex items-center text-gray-600 dark:text-gray-300">
-                    <MapPin className="w-5 h-5 mr-3" />
-                    <span>Location</span>
-                  </div>
-                  <span className="font-semibold text-gray-900 dark:text-white">
-                    {course.location}
-                  </span>
-                </div>
-                
+
                 <div className="flex items-center justify-between">
                   <div className="flex items-center text-gray-600 dark:text-gray-300">
                     <Users className="w-5 h-5 mr-3" />
@@ -212,13 +210,17 @@ const CourseDetailPage: React.FC = () => {
                     {course.maxParticipants}
                   </span>
                 </div>
-                
+
                 <div className="flex items-center justify-between">
                   <div className="flex items-center text-gray-600 dark:text-gray-300">
                     <Award className="w-5 h-5 mr-3" />
                     <span>Level</span>
                   </div>
-                  <span className={`px-3 py-1 text-sm font-semibold rounded-full ${levelColors[course.level]}`}>
+                  <span
+                    className={`px-3 py-1 text-sm font-semibold rounded-full ${
+                      levelColors[course.level]
+                    }`}
+                  >
                     {course.level}
                   </span>
                 </div>
